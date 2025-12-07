@@ -9,7 +9,8 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      background: #000;
+      /* ここを透明にするのがポイント */
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -19,21 +20,12 @@
       overflow: hidden;
     }
 
-    /* モニタ風ノイズ */
+    /* 全画面ノイズは消す（外側も塗られるため） */
     body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.12;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-      background-size: 100% 2px, 2px 100%;
-      mix-blend-mode: screen;
+      content: none;
     }
 
-    /* 円形コンテナ */
+    /* 円形コンテナ本体だけに背景と影をつける */
     .container {
       position: relative;
       width: 320px;
@@ -52,14 +44,31 @@
       align-items: center;
       justify-content: center;
       text-align: center;
+
+      /* 中身がはみ出したときに円から出ないように */
+      overflow: hidden;
     }
 
-    /* 上部ロゴ */
+    /* 円の内側だけに細かいノイズをかける */
+    .container::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 100% 2px, 2px 100%;
+      mix-blend-mode: screen;
+    }
+
     .logo {
       margin-bottom: 10px;
       display: flex;
       justify-content: center;
       align-items: center;
+      z-index: 1;
     }
 
     .logo svg {
@@ -74,7 +83,8 @@
     }
 
     #clock {
-      font-size: 40px;            /* 円形に収まるサイズに調整 */
+      z-index: 1;
+      font-size: 40px;
       letter-spacing: 0.16em;
       text-shadow:
         0 0 6px rgba(0,255,255,0.7),
@@ -82,6 +92,7 @@
     }
 
     #date {
+      z-index: 1;
       margin-top: 8px;
       font-size: 12px;
       letter-spacing: 0.30em;
@@ -91,6 +102,7 @@
     }
 
     #label {
+      z-index: 1;
       margin-top: 18px;
       font-size: 8px;
       letter-spacing: 0.38em;
@@ -103,8 +115,7 @@
 
 <body>
   <div class="container">
-
-    <!-- CT ガントリ＋扇形ビーム ロゴ（上中央） -->
+    <!-- CT ガントリ＋扇形ビーム ロゴ -->
     <div class="logo" aria-hidden="true">
       <svg viewBox="0 0 120 120">
         <!-- ガントリ円 -->
@@ -125,7 +136,6 @@
     <div id="clock">00:00:00</div>
     <div id="date">JAN 01 (MON)</div>
     <div id="label">R A D I O L O G Y  D A S H B O A R D</div>
-
   </div>
 
   <script>
