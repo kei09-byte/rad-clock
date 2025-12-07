@@ -2,15 +2,14 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>Radiology Clock – Circular</title>
+  <title>Radiology Clock</title>
 
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      /* ここを透明にするのがポイント */
-      background: transparent;
+      background: #000;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -20,39 +19,9 @@
       overflow: hidden;
     }
 
-    /* 全画面ノイズは消す（外側も塗られるため） */
     body::before {
-      content: none;
-    }
-
-    /* 円形コンテナ本体だけに背景と影をつける */
-    .container {
-      position: relative;
-      width: 320px;
-      height: 320px;
-      border-radius: 50%;
-      box-sizing: border-box;
-
-      padding: 32px 30px 26px;
-      background: radial-gradient(circle at 30% 0%, #1f2736 0%, #030509 70%, #000 100%);
-      box-shadow:
-        0 0 42px rgba(0, 0, 0, 0.9),
-        0 0 16px rgba(0, 255, 255, 0.28);
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-
-      /* 中身がはみ出したときに円から出ないように */
-      overflow: hidden;
-    }
-
-    /* 円の内側だけに細かいノイズをかける */
-    .container::before {
       content: "";
-      position: absolute;
+      position: fixed;
       inset: 0;
       pointer-events: none;
       opacity: 0.12;
@@ -63,19 +32,44 @@
       mix-blend-mode: screen;
     }
 
+    .container {
+      /* ------------------------------------------- */
+      /* --- 正円化のための修正点 --- */
+      width: 380px; /* 固定幅を設定 (コンテンツが収まるように調整) */
+      height: 380px; /* 固定高さを設定 */
+      border-radius: 50%; /* 正円にするための設定 */
+      min-width: 0; /* min-widthをリセット */
+      padding: 0; /* パディングをリセット */
+      
+      /* 中身を中央に寄せるための設定 */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      /* ------------------------------------------- */
+
+      position: relative;
+      /* 元のデザインを維持 */
+      background: radial-gradient(circle at top, #1c1f24 0%, #050608 70%, #000 100%);
+      box-shadow:
+        0 0 42px rgba(0, 0, 0, 0.9),
+        0 0 14px rgba(0, 255, 255, 0.25);
+      text-align: center;
+    }
+
+    /* ロゴ（上中央） */
     .logo {
-      margin-bottom: 10px;
+      margin-bottom: 18px;
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 1;
     }
 
     .logo svg {
-      width: 70px;
-      height: 70px;
+      width: 72px;
+      height: 72px;
       stroke: #0ff;
-      stroke-width: 2.4;
+      stroke-width: 2.6;
       fill: none;
       filter:
         drop-shadow(0 0 4px rgba(0,255,255,0.75))
@@ -83,29 +77,26 @@
     }
 
     #clock {
-      z-index: 1;
-      font-size: 40px;
-      letter-spacing: 0.16em;
+      font-size: 56px;
+      letter-spacing: 0.12em;
       text-shadow:
         0 0 6px rgba(0,255,255,0.7),
         0 0 14px rgba(0,255,255,0.3);
     }
 
     #date {
-      z-index: 1;
-      margin-top: 8px;
-      font-size: 12px;
-      letter-spacing: 0.30em;
-      color: #c0c7d1;
+      margin-top: 12px;
+      font-size: 14px;
+      letter-spacing: 0.28em;
+      color: #9ca5b1;
       opacity: 0.9;
       text-transform: uppercase;
     }
 
     #label {
-      z-index: 1;
-      margin-top: 18px;
-      font-size: 8px;
-      letter-spacing: 0.38em;
+      margin-top: 20px;
+      font-size: 9px;
+      letter-spacing: 0.32em;
       color: #8f9ba8;
       opacity: 0.8;
       text-transform: uppercase;
@@ -115,19 +106,17 @@
 
 <body>
   <div class="container">
-    <!-- CT ガントリ＋扇形ビーム ロゴ -->
+
     <div class="logo" aria-hidden="true">
       <svg viewBox="0 0 120 120">
-        <!-- ガントリ円 -->
         <circle cx="40" cy="60" r="28" />
-        <!-- 開口部 -->
         <circle cx="40" cy="60" r="12" />
-        <!-- 中心点 -->
-        <circle cx="40" cy="60" r="3" />
 
-        <!-- ファンビーム（扇形） -->
+        <circle 
+          cx="40" cy="60" r="3" />
+
         <path d="M40 60 L110 45 L110 75 Z" />
-        <!-- ビームガイドライン -->
+
         <line x1="40" y1="60" x2="110" y2="45" />
         <line x1="40" y1="60" x2="110" y2="75" />
       </svg>
@@ -135,18 +124,18 @@
 
     <div id="clock">00:00:00</div>
     <div id="date">JAN 01 (MON)</div>
-    <div id="label">R A D I O L O G Y  D A S H B O A R D</div>
+    <div id="label">R A D I O L O G 
+      Y  D A S H B O A R D</div>
+
   </div>
 
   <script>
     function updateClock() {
       const now = new Date();
-
       const h = String(now.getHours()).padStart(2, "0");
       const m = String(now.getMinutes()).padStart(2, "0");
       const s = String(now.getSeconds()).padStart(2, "0");
       document.getElementById("clock").textContent = `${h}:${m}:${s}`;
-
       const months = ["JAN","FEB","MAR","APR","MAY","JUN",
                       "JUL","AUG","SEP","OCT","NOV","DEC"];
       const days   = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
