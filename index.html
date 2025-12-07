@@ -9,7 +9,10 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      background: #000;
+      /* ------------------------------------------- */
+      /* --- 背景色の修正点 --- */
+      background: #191919; /* #000 から #191919 に変更 */
+      /* ------------------------------------------- */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -33,23 +36,21 @@
     }
 
     .container {
-      /* ------------------------------------------- */
-      /* --- 正円化のための修正点 --- */
-      width: 380px; /* 固定幅を設定 (コンテンツが収まるように調整) */
-      height: 380px; /* 固定高さを設定 */
-      border-radius: 50%; /* 正円にするための設定 */
-      min-width: 0; /* min-widthをリセット */
-      padding: 0; /* パディングをリセット */
+      /* --- 正円化のための設定 --- */
+      width: 380px; 
+      height: 380px;
+      border-radius: 50%;
+      min-width: 0; 
+      padding: 0; 
       
       /* 中身を中央に寄せるための設定 */
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      /* ------------------------------------------- */
+      /* -------------------------- */
 
       position: relative;
-      /* 元のデザインを維持 */
       background: radial-gradient(circle at top, #1c1f24 0%, #050608 70%, #000 100%);
       box-shadow:
         0 0 42px rgba(0, 0, 0, 0.9),
