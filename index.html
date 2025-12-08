@@ -9,10 +9,8 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      /* ------------------------------------------- */
-      /* --- 背景色の修正点 --- */
-      background: #191919; /* #000 から #191919 に変更 */
-      /* ------------------------------------------- */
+      /* Notionの背景に完全に馴染ませるため #000 に戻す */
+      background: #000; 
       display: flex;
       align-items: center;
       justify-content: center;
@@ -21,7 +19,8 @@
       color: #fff;
       overflow: hidden;
     }
-
+    
+    /* body::before (グリッドパターン) は、埋め込みの余白で浮く可能性があるため削除（コメントアウト）
     body::before {
       content: "";
       position: fixed;
@@ -34,16 +33,17 @@
       background-size: 100% 2px, 2px 100%;
       mix-blend-mode: screen;
     }
+    */
 
     .container {
-      /* --- 正円化のための設定 --- */
+      /* --- 正円化のための設定 (維持) --- */
       width: 380px; 
       height: 380px;
       border-radius: 50%;
       min-width: 0; 
       padding: 0; 
       
-      /* 中身を中央に寄せるための設定 */
+      /* 中身を中央に寄せるための設定 (維持) */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -51,10 +51,11 @@
       /* -------------------------- */
 
       position: relative;
-      background: radial-gradient(circle at top, #1c1f24 0%, #050608 70%, #000 100%);
+      /* グラデーションとシャドウは、ウィジェット自体を目立たせるために維持 */
+      background: radial-gradient(circle at top, #1c1f24 0%, #050608 70%, #000 100%); [cite: 7]
       box-shadow:
         0 0 42px rgba(0, 0, 0, 0.9),
-        0 0 14px rgba(0, 255, 255, 0.25);
+        0 0 14px rgba(0, 255, 255, 0.25); [cite: 8]
       text-align: center;
     }
 
